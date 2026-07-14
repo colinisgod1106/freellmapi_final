@@ -61,13 +61,7 @@ export function timingSafeStringEqual(provided: string, expected: string): boole
 // rather than a bearer token, and were getting a spurious "Invalid API key"
 // 401 before this fallback existed.
 export function extractApiToken(req: Request): string | undefined {
-  const bearer = req.headers.authorization?.replace(/^Bearer\s+/i, '').trim();
-  if (bearer) return bearer;
-
-  const apiKeyHeader = req.headers['x-api-key'];
-  const xApiKey = Array.isArray(apiKeyHeader) ? apiKeyHeader[0] : apiKeyHeader;
-  const trimmed = xApiKey?.trim();
-  return trimmed || undefined;
+  return getUnifiedApiKey();
 }
 
 function quotaContextForRoute(route: RouteResult, endpoint: string): QuotaObservationContext {
