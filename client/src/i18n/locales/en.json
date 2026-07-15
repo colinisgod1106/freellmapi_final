@@ -32,7 +32,7 @@
     "newPasswordAutoComplete": "new-password",
     "currentPasswordAutoComplete": "current-password",
     "serverUnreachableBefore": "Can't reach the server. Make sure the backend is running (",
-    "serverUnreachableAfter": ").",
+    "serverUnreachableAfter": ")."
   },
   "common": {
     "save": "Save",
