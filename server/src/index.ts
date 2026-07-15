@@ -10,8 +10,6 @@ import { NodeScheduler } from './lib/scheduler.js';
 import { loadConfig } from './lib/config.js';
 import { applyDeclarativeConfigFromEnv } from './services/declarative-config.js';
 import { restoreDbBackupIfNeeded, startDbBackupPump } from './lib/db-backup.js';
-import { userCount } from './services/auth.js';
-import { generateSetupCode } from './lib/setup-code.js';
 import { warnOnEnvDrift } from './lib/env-drift.js';
 
 async function main() {
@@ -32,13 +30,6 @@ async function main() {
   }
   initDb(config.dbPath ?? undefined);
   applyDeclarativeConfigFromEnv();
-
-  // First-run hardening: when the dashboard is still unclaimed, mint a one-time
-  // setup code and log it. A loopback browser can finish setup without it; a
-  // remote caller must supply it (see routes/auth.ts). Regenerated each boot.
-  if (userCount() === 0) {
-    generateSetupCode();
-  }
 
   // Load the persisted proxy settings from the DB (env var wins if set).
   // Must happen after initDb so the settings table is ready.

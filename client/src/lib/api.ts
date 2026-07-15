@@ -47,8 +47,7 @@ export async function apiFetch<T>(path: string, options?: RequestInit): Promise<
   if (!res.ok) {
     const body = await res.json().catch(() => ({ error: { message: res.statusText } }));
     // Surface the HTTP status and the machine-readable error type on the thrown
-    // Error so callers can branch on them (e.g. the setup form reveals a code
-    // field on a `setup_code_required` 403). `.message` behaviour is unchanged.
+    // Error so callers can branch on them. `.message` behaviour is unchanged.
     const err = new Error(body.error?.message ?? `HTTP ${res.status}`) as ApiError;
     err.status = res.status;
     err.code = body.error?.type;
